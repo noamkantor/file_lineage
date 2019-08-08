@@ -5,19 +5,34 @@
 
 ###USAGE EXAMPLES###
 
-filtered_by_e = filter_by_directory(df, 'economics')
+#run initiate variable matching before these
 
-labels_split_e_only = []
-for x in filtered_by_e[1]:
-    newsentence = split_nonempty(x)
-    if (len(newsentence) != 0):
-        labels_split_irs_only.append(newsentence)
-        if len(labels_split_irs_only) % 100 == 0:
-            print(len(labels_split_irs_only))
-            print(newsentence)
+#a simple example:
 
-answer = letsquery('Modified_variable_names.csv',
-                   model_fb, labels_split_e_only, 10, 'column', df, 1, filtered_by_e[0], 0.55)
+def test1():
+    return letsquery('some_dataset.csv',
+                       model_fb, labels_split, 10, 'row', df, 1, df, 0.55)
+
+
+
+#a more complicated example, where we only want to test for variables that are in the economic directory
+def test2():
+    filtered_by_e = filter_by_directory(df, 'economics')
+    
+    labels_split_e_only = []
+    for x in filtered_by_e[1]:
+        newsentence = split_nonempty(x)
+        if (len(newsentence) != 0):
+            labels_split_e_only.append(newsentence)
+            if len(labels_split_e_only) % 100 == 0:
+                print(len(labels_split_e_only))
+                print(newsentence)
+    
+    return letsquery('Modified_variable_names.csv',
+                       model_fb, labels_split_e_only, 10, 'column', df, 1, filtered_by_e[0], 0.55)
+
+
+
 
 ###########
 
@@ -206,7 +221,7 @@ def letsquery(testfile, model, corpus, n_output, location, dataframe, n_varmatch
     #location is either 'column' or 'row'.
     #depending on whether testfile has variables as columns or rows.
     #dataframe is master dataframe containing file names, labels, and paths.
-    #restricted data frame should be a dataframe that only contains variable fro irs files, say, if you only
+    #restricted data frame should be a dataframe that only contains variable from econ files, say, if you only
     #want to test those
     
     
